@@ -112,7 +112,7 @@ export class TaskPool implements IConnection {
     }
     doProgress() {
         const doneLen = this.doneList.length;
-        const allLen = (doneLen + this.doningList.length) || 1;
+        const allLen = (doneLen + this.doningList.length + this.taskList.length) || 1;
         const progress = doneLen / allLen;
         this.progressListeners.forEach((listener) => {
             if (listener) {

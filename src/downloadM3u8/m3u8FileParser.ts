@@ -5,6 +5,7 @@ export interface M3u8FileOption {
     key?: string;
     iv?: string;
     tsUrls?: string[];
+    tsFiles?: string[];
 }
 
 export const parseM3u8File = (content: string): M3u8FileOption => {
