@@ -1,6 +1,6 @@
 {
   "name": "downloader-m3u8",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",

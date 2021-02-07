@@ -12,6 +12,8 @@ export interface DownloadM3u8Option {
     m3u8Url: string; //m3u8文件地址
     filePath: string; //最终保存文件目录
     title: string;   //保存文件名 最终路径 `${filePath}${title}.mp4`
+    headers?:any; //请求下载路径时的请求头
+    threadCount?:number; //线程数
 };
 export const downloadM3u8FileToMp4 = async (opts: DownloadM3u8Option): Promise<any> => {
     const { m3u8Url, filePath } = opts;
@@ -128,9 +130,9 @@ const connectTsFile = async (opts: DownloadM3u8Option,m3u8Option:M3u8FileOption)
     }
 }
 
-const downloadM3u8TsFile = async ({ m3u8Url, filePath }: DownloadM3u8Option, m3u8Option: M3u8FileOption) => { 
+const downloadM3u8TsFile = async ({ m3u8Url, filePath,threadCount=20 }: DownloadM3u8Option, m3u8Option: M3u8FileOption) => { 
     const {tsUrls} = m3u8Option;
-    const pool = new TaskPool(20);
+    const pool = new TaskPool(threadCount);
     const tsFiles:string[] = [];
     tsUrls && tsUrls.forEach((tsUrl,index)=>{
         tsUrl = parseUrl(m3u8Url,tsUrl);
@@ -171,7 +173,9 @@ const parseUrl = (sourceUrl: string, relativeUrl: string): string => {
     if (relativeUrl.startsWith('/')) {
         const up = parse(sourceUrl);
         urlBase = sourceUrl.replace(up.path, '');
-    } else {
+    } else if(relativeUrl.startsWith('http')){
+        urlBase = '';
+    }else {
         urlBase = sourceUrl.substring(0, sourceUrl.lastIndexOf('/') + 1);
     }
     relativeUrl = `${urlBase}${relativeUrl}`;
