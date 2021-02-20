@@ -36,10 +36,21 @@ async function downloadFile1({ url, name }: { url: string; name: string }) {
             rej(e);
         });
         task.start();
+        // setTimeout(() => {
+        //     console.log('10s之后停止!')
+        //     task.stop();
+        // }, 10000)
     });
 }
 
 async function main() {
+
+    await downloadFile1({
+        url: 'http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8',
+        // url: 'https://v.xboku.com/20200813/TZFNhKYK/index.m3u8',
+        name: '苹果测试'
+    });
+
     // const content = getFileContent(`../tmp/download.tmp`);
     // console.log(content);
     //   for (let i = 1; i <= 22; i++) {
@@ -77,40 +88,6 @@ async function main() {
     //         name: `恶之花${i + 1}`,
     //     });
     // }
-    await downloadFile1({
-        url: 'https://vs02.520call.me/files/mp4/k/kQ04i.m3u8?t=1613534095',
-        name:
-            'AQSH-051 為了不孕治療到診所的妻子被變態治療中出搞成淫亂女…。 紗紗原百合[有碼高清中文字幕]',
-    });
-    // await downloadFile({
-    //     url: 'https://vs02.520call.me/files/mp4/l/lNBFK.m3u8?t=1613496687',
-    //     name:
-    //         'WAAA-004 亀頭2.5cmまで挿入OK！ギリギリ「不倫未満」と言い張る性欲ムラムラ浮気妻 つぼみ',
-    // });
-    // await downloadFile({
-    //     url:
-    //         'https://605ziyuan.com/ppvod/E8172CD85851856D6F2622B28B60DD1D.m3u8',
-    //     name: '禁止的爱：表姐妹们',
-    // });
-    // await downloadFile({
-    //     url:
-    //         'https://video.huishenghuo888888.com/jingpin/20201226/99HY5CCG/index.m3u8',
-    //     name: '两个女儿同居',
-    // });
-    // await downloadFile({
-    //     url:
-    //         'https://video.huishenghuo888888.com/jingpin/20210108/0lXABcus/index.m3u8',
-    //     name: '兄弟的女人',
-    // });
-    // await downloadFile({
-    //     url:
-    //         'https://video.huishenghuo888888.com/jingpin/20201006/z3RoPMW5/index.m3u8',
-    //     name: '城市艳情',
-    // });
-    // await downloadFile({
-    //     url: 'https://www.fhbf9.com/20200706/sRBYLHtg/1000kb/hls/index.m3u8',
-    //     name: '热线女孩',
-    // });
 }
 
 main();

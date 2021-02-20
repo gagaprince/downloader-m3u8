@@ -1,6 +1,6 @@
 {
   "name": "downloader-m3u8",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
@@ -20,12 +20,12 @@
   },
   "homepage": "https://github.com/gagaprince/downloader-m3u8#readme",
   "dependencies": {
-    "downloader-util": "^1.0.8",
-    "fs-extra": "^9.0.1",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.3"
+    "downloader-util": "^1.0.9",
+    "fs-extra": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^14.14.25"
+    "@types/node": "^14.14.25",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
   }
 }

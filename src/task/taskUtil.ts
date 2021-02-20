@@ -48,6 +48,9 @@ export abstract class Task {
     getStatus() {
         return this.taskStatus;
     }
+    stop() {
+
+    }
 }
 
 export class TaskPool implements IConnection {
@@ -157,9 +160,12 @@ export class TaskPool implements IConnection {
         return this.taskList.length == 0 && this.doningList.length == 0;
     }
     clear() {
-        this.doneList = [];
         this.taskList = [];
+        this.doningList.forEach((task: Task) => {
+            task.stop();
+        });
         this.doneList = [];
+        this.doningList = [];
     }
     stop() {
         this.poolState = 1;
