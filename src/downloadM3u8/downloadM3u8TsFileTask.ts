@@ -1,10 +1,14 @@
-import { DownLoad } from 'downloader-util';
+import { DownLoad, HttpHeaders } from 'downloader-util';
 import { Task } from '../task/taskUtil';
 
 export default class DownloadM3u8TsFileTask extends Task {
     retry = 100;
     downloadTask: DownLoad | undefined;
-    constructor(private fileUrl: string, private filePath: string) {
+    constructor(
+        private fileUrl: string,
+        private filePath: string,
+        private headers: HttpHeaders
+    ) {
         super();
     }
     async task() {
@@ -23,6 +27,7 @@ export default class DownloadM3u8TsFileTask extends Task {
             this.downloadTask = new DownLoad({
                 url: this.fileUrl,
                 filePath: this.filePath,
+                headers: this.headers,
                 timeout: 10000,
                 onFailed: (error) => {
                     if (this.retry > 0 && error != '用户手动停止，停止下载') {

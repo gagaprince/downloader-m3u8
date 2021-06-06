@@ -4,6 +4,7 @@ import { getFileContent, saveJson } from '../fileUtil/index';
 import { TaskPool } from '../task/taskUtil';
 import { AES } from '../aes/AES';
 import DownloadM3u8TsFileTask from './downloadM3u8TsFileTask';
+import { HttpHeaders } from 'downloader-util';
 const { execSync } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
@@ -12,7 +13,7 @@ export interface DownloadM3u8Option {
     m3u8Url: string; //m3u8文件地址
     filePath: string; //最终保存文件目录
     title: string; //保存文件名 最终路径 `${filePath}${title}.mp4`
-    headers?: any; //请求下载路径时的请求头
+    headers?: HttpHeaders; //请求下载路径时的请求头
     threadCount?: number; //线程数
     onProgress?: (percent: number) => void;
     onFinish?: () => void;
@@ -60,7 +61,7 @@ export const deleteDownloadConfig = ({
 export const downloadM3u8FileToMp4 = async (
     opts: DownloadM3u8Option
 ): Promise<any> => {
-    const { m3u8Url, filePath, title } = opts;
+    const { m3u8Url, filePath, title, headers } = opts;
 
     // clearFilePath(filePath);
     let downloadConfig = getDownloadConfig(opts);
@@ -204,7 +205,14 @@ const downloadM3u8TsFile = async (
     opts: DownloadM3u8Option,
     m3u8Option: M3u8FileOption
 ) => {
-    const { m3u8Url, filePath, title, threadCount = 20, onProgress } = opts;
+    const {
+        m3u8Url,
+        filePath,
+        title,
+        headers,
+        threadCount = 20,
+        onProgress,
+    } = opts;
     const { tsUrls } = m3u8Option;
     const downloadConfig = getDownloadConfig(opts);
     const { hasDownloadFiles = [] } = downloadConfig;
@@ -224,7 +232,9 @@ const downloadM3u8TsFile = async (
             const file = path.resolve(filePath, title, 'tmp', fileName);
             tsFiles.push(file);
             if (!fileSet.has(file)) {
-                pool.addTask(new DownloadM3u8TsFileTask(tsUrl, file));
+                pool.addTask(
+                    new DownloadM3u8TsFileTask(tsUrl, file, headers || {})
+                );
             }
         });
 
@@ -248,7 +258,7 @@ const downloadM3u8TsFile = async (
 };
 
 export const downloadM3u8KeyFileAndParseKey = async (
-    { m3u8Url, filePath, title }: DownloadM3u8Option,
+    { m3u8Url, filePath, title, headers }: DownloadM3u8Option,
     m3u8Option: M3u8FileOption
 ): Promise<M3u8FileOption> => {
     const { keyUrl } = m3u8Option;
@@ -257,6 +267,7 @@ export const downloadM3u8KeyFileAndParseKey = async (
         const m3u8KeyTempFile = path.resolve(filePath, title, 'tmp', 'tmp.key');
         const keyFile = await downloadM3u8File({
             url: keyUrlAll,
+            headers,
             file: m3u8KeyTempFile,
         });
         const key = fs.readFileSync(keyFile, 'hex');

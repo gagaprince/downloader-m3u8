@@ -23,6 +23,13 @@ async function downloadFile1({ url, name }: { url: string; name: string }) {
             m3u8Url: url,
             filePath: `../tmp/`,
             title: name,
+            headers: {
+                referer: 'https://missav.com/',
+                host: 'vz-8bd03a41-60e.b-cdn.net',
+                accept: '*/*',
+                'user-agent':
+                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36',
+            },
         });
         task.onProgress((progress: number) => {
             console.log(`${name}进度---${progress * 100}%`);
@@ -44,11 +51,10 @@ async function downloadFile1({ url, name }: { url: string; name: string }) {
 }
 
 async function main() {
-
     await downloadFile1({
-        url: 'http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8',
+        url: 'https://vz-8bd03a41-60e.b-cdn.net/b8010124-bc2c-4e46-96c7-a3880c8f4026/1280x720/video.m3u8',
         // url: 'https://v.xboku.com/20200813/TZFNhKYK/index.m3u8',
-        name: '苹果测试'
+        name: '苹果测试',
     });
 
     // const content = getFileContent(`../tmp/download.tmp`);

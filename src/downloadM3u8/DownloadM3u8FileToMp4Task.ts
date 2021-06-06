@@ -63,6 +63,7 @@ export class DownloadM3u8FileMp4 {
         const m3u8file = await downloadM3u8File({
             url: m3u8Url,
             file: m3u8TempFile,
+            headers: this.downloadOption.headers || {},
         });
         if (this.state !== DownloadState.START) return '';
 
@@ -112,6 +113,7 @@ export class DownloadM3u8FileMp4 {
             m3u8Url,
             filePath,
             title,
+            headers,
             threadCount = 20,
         } = this.downloadOption;
         const { tsUrls } = m3u8Option;
@@ -136,7 +138,9 @@ export class DownloadM3u8FileMp4 {
                 const file = path.resolve(filePath, title, 'tmp', fileName);
                 tsFiles.push(file);
                 if (!fileSet.has(file)) {
-                    pool.addTask(new DownloadM3u8TsFileTask(tsUrl, file));
+                    pool.addTask(
+                        new DownloadM3u8TsFileTask(tsUrl, file, headers || {})
+                    );
                 }
             });
 
