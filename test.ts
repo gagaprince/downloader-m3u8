@@ -51,10 +51,10 @@ async function downloadFile1({ url, name }: { url: string; name: string }) {
 }
 
 async function main() {
-    await downloadFile1({
-        url: 'https://vz-8bd03a41-60e.b-cdn.net/b8010124-bc2c-4e46-96c7-a3880c8f4026/1280x720/video.m3u8',
+    await downloadFile({
+        url: 'https://vs02.520call.me/files/mp4/t/tPYUY.m3u8?t=1633880449',
         // url: 'https://v.xboku.com/20200813/TZFNhKYK/index.m3u8',
-        name: '苹果测试',
+        name: 'CLUB-639 只對我這個陰暗圖書委員溫柔 偷拍短髮美乳女子。上課時也持續內射交尾[有碼中文字幕]',
     });
 
     // const content = getFileContent(`../tmp/download.tmp`);

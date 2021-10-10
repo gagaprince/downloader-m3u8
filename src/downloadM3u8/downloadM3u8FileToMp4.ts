@@ -5,6 +5,7 @@ import { TaskPool } from '../task/taskUtil';
 import { AES } from '../aes/AES';
 import DownloadM3u8TsFileTask from './downloadM3u8TsFileTask';
 import { HttpHeaders } from 'downloader-util';
+const md5 = require('md5');
 const { execSync } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
@@ -226,9 +227,7 @@ const downloadM3u8TsFile = async (
         tsUrls.forEach((tsUrl, index) => {
             tsUrl = parseUrl(m3u8Url, tsUrl);
             const url = new URL(tsUrl);
-            const fileName = url.pathname
-                .substring(url.pathname.lastIndexOf('/') + 1)
-                .split('?')[0];
+            const fileName = md5(url.pathname);
             const file = path.resolve(filePath, title, 'tmp', fileName);
             tsFiles.push(file);
             if (!fileSet.has(file)) {
