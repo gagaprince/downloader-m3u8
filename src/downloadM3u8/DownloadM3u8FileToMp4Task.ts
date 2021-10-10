@@ -14,6 +14,7 @@ import { TaskPool } from '../task/taskUtil';
 import { downloadM3u8File } from './downloadM3u8File';
 import { getFileContent, saveJson } from '../fileUtil/index';
 import { parseM3u8File, M3u8FileOption } from './m3u8FileParser';
+const md5 = require('md5');
 const path = require('path');
 enum DownloadState {
     STOP = 0,
@@ -132,9 +133,10 @@ export class DownloadM3u8FileMp4 {
             tsUrls.forEach((tsUrl, index) => {
                 tsUrl = parseUrl(m3u8Url, tsUrl);
                 const url = new URL(tsUrl);
-                const fileName = url.pathname
-                    .substring(url.pathname.lastIndexOf('/') + 1)
-                    .split('?')[0];
+                // const fileName = url.pathname
+                //     .substring(url.pathname.lastIndexOf('/') + 1)
+                //     .split('?')[0];
+                const fileName = md5(url.pathname);
                 const file = path.resolve(filePath, title, 'tmp', fileName);
                 tsFiles.push(file);
                 if (!fileSet.has(file)) {
