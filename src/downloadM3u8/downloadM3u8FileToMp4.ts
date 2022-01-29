@@ -15,6 +15,7 @@ export interface DownloadM3u8Option {
     filePath: string; //最终保存文件目录
     title: string; //保存文件名 最终路径 `${filePath}${title}.mp4`
     headers?: HttpHeaders; //请求下载路径时的请求头
+    ffmpegPath?: string;
     threadCount?: number; //线程数
     onProgress?: (percent: number) => void;
     onFinish?: () => void;
@@ -110,15 +111,15 @@ export const downloadM3u8FileToMp4 = async (
 };
 
 export const tranformMp4 = (opts: DownloadM3u8Option) => {
-    const { title, filePath } = opts;
+    const { title, filePath, ffmpegPath = 'ffmpeg' } = opts;
     const depathMp4 = path.resolve(filePath, `${title}.ts`);
 
     try {
         execSync(
-            `ffmpeg -i '${depathMp4}' -acodec copy -vcodec copy -f mp4 '${depathMp4.replace(
+            `${ffmpegPath} -i "${depathMp4}" -acodec copy -vcodec copy -f mp4 "${depathMp4.replace(
                 '.ts',
                 '.mp4'
-            )}'`
+            )}"`
         );
         fs.removeSync(depathMp4);
     } catch (e) {
