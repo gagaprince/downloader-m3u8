@@ -85,6 +85,8 @@ export const downloadM3u8FileToMp4 = async (
     if (m3u8Option.type == 0) {
         // 需要再次下载真正的m3u8;
         if (m3u8Option.realM3u8Url) {
+            //先删除原来的 m3u8TempFile 
+            clearFilePath(m3u8TempFile)
             opts.m3u8Url = parseUrl(m3u8Url, m3u8Option.realM3u8Url);
             return downloadM3u8FileToMp4(opts);
         }
